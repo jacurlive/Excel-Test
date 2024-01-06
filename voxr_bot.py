@@ -3,7 +3,8 @@ import json
 
 import openpyxl
 import logging
-from aiogram import Bot, Dispatcher, types
+from aiogram import Bot, Dispatcher, types, F
+from aiogram.filters import CommandStart
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
 TOKEN = "6594664425:AAHX5W73TkK1b75pZ_g_gEVY9SbrSZDHLcs"
@@ -18,12 +19,12 @@ reply_keyboard = ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text="Raqamni Yub
                                      resize_keyboard=True)
 
 
-@dp.message_handler(commands=['start'])
+@dp.message(CommandStart())
 async def start(message: types.Message):
     await message.answer("Salom!Malumotni korish uchun pastdagi tugmani bosing!", reply_markup=reply_keyboard)
 
 
-@dp.message_handler(content_types=types.ContentType.CONTACT)
+@dp.message(F.contact)
 async def get_contact(message: types.Message):
     contact = message.contact
     await message.answer("Raqam muvofaqiyatli royhatdan otdi!Hisob izlanmoqda...")
@@ -38,8 +39,9 @@ async def get_contact(message: types.Message):
     info = {}
 
     for item in range(1, sheet.max_row + 1):
-        if sheet[item][0].value == f"+{contact.phone_number}":
+        if sheet[item][0].value == f"{contact.phone_number}":
             for item2 in range(0, sheet.max_column):
+                print(sheet[item][item2].value)
                 if sheet[item][item2].value:
                     # await bot.send_message(message.chat.id, f"{sheet[4][item2].value}: {sheet[item][item2].value}")
                     info[sheet[3][item2].value] = sheet[item][item2].value
