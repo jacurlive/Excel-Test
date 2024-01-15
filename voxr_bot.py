@@ -43,7 +43,6 @@ async def get_contact(message: types.Message):
             for item2 in range(0, sheet.max_column):
                 print(sheet[item][item2].value)
                 if sheet[item][item2].value:
-                    # await bot.send_message(message.chat.id, f"{sheet[4][item2].value}: {sheet[item][item2].value}")
                     info[sheet[3][item2].value] = sheet[item][item2].value
                 else:
                     continue
@@ -54,6 +53,11 @@ async def get_contact(message: types.Message):
 
     await bot.send_message(message.chat.id, info_str)
     await bot.send_message(message.chat.id, status)
+
+
+@dp.message()
+async def answer_message(message: types.Message):
+    await message.answer("'Raqamni yuborish' tugmasini bosing)", reply_markup=reply_keyboard)
 
 
 async def main():
