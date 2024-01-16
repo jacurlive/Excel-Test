@@ -59,7 +59,7 @@ async def get_contact(message: types.Message):
 @dp.message(F.document)
 async def admin_work(message: types.Message):
     if message.chat.id == 5728980889:
-        await bot.send_message(5728980889, "Hi, admin")
+        # await bot.send_message(5728980889, "Hi, admin")
         
         document = message.document
 
@@ -76,7 +76,7 @@ async def admin_work(message: types.Message):
         await bot.send_message(5728980889, "Файл сохранен успешно!")
 
     else:
-        pass
+        await bot.send_message(message.chat.id, "У вас нет прав для выполнения этой операции.")
 
 
 @dp.message()
