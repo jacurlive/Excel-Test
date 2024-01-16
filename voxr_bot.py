@@ -7,6 +7,7 @@ import logging
 from aiogram import Bot, Dispatcher, types, F
 from aiogram.filters import CommandStart
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
+from utils import add_plus
 
 TOKEN = "6594664425:AAHX5W73TkK1b75pZ_g_gEVY9SbrSZDHLcs"
 
@@ -40,9 +41,9 @@ async def get_contact(message: types.Message):
     info = {}
 
     for item in range(1, sheet.max_row + 1):
-        if sheet[item][0].value == f"{contact.phone_number}":
+        numb = add_plus(contact.phone_number)
+        if sheet[item][0].value == numb:
             for item2 in range(0, sheet.max_column):
-                print(sheet[item][item2].value)
                 if sheet[item][item2].value:
                     info[sheet[3][item2].value] = sheet[item][item2].value
                 else:
@@ -58,9 +59,7 @@ async def get_contact(message: types.Message):
 
 @dp.message(F.document)
 async def admin_work(message: types.Message):
-    if message.chat.id == 5728980889:
-        # await bot.send_message(5728980889, "Hi, admin")
-        
+    if message.chat.id == 5728980889 or message.chat.id == 1031845328:
         document = message.document
 
         file_info = await bot.get_file(document.file_id)
@@ -68,7 +67,10 @@ async def admin_work(message: types.Message):
         file_path = await bot.download_file(file_info.file_path)
 
         if os.path.exists("data.xlsx"):
-            os.remove("data.xlsx")
+            try:
+                os.remove("data.xlsx")
+            except Exception as es:
+                print(es)
 
         with open(f'data.xlsx', 'wb') as new_file:
             new_file.write(file_path.read())
@@ -86,6 +88,7 @@ async def answer_message(message: types.Message):
 
 async def main():
     await dp.start_polling(bot)
+
 
 if __name__ == "__main__":
     asyncio.run(main())
