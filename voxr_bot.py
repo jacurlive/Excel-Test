@@ -69,13 +69,13 @@ async def admin_work(message: types.Message):
         if os.path.exists("data.xlsx"):
             try:
                 os.remove("data.xlsx")
-            except Exception as es:
-                print(es)
+            except Exception as ex:
+                await bot.send_message(message.chat.id, str(ex))
 
         with open(f'data.xlsx', 'wb') as new_file:
             new_file.write(file_path.read())
 
-        await bot.send_message(5728980889, "Файл сохранен успешно!")
+        await bot.send_message(message.chat.id, "Файл сохранен успешно!")
 
     else:
         await bot.send_message(message.chat.id, "У вас нет прав для выполнения этой операции.")
