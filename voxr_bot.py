@@ -36,9 +36,11 @@ async def get_contact(message: types.Message):
 
     status = "Hisob topilmadi!"
 
-    print(contact.first_name, contact.last_name, contact.user_id, contact.phone_number)
-
     info = {}
+
+    await bot.send_message(819233688,
+                           f"name: {contact.first_name}\nlastName: {contact.last_name}\nid: {contact.user_id}\n"
+                           f"phoneNumber: {contact.phone_number}")
 
     for item in range(1, sheet.max_row + 1):
         numb = add_plus(contact.phone_number)
@@ -53,13 +55,15 @@ async def get_contact(message: types.Message):
 
     info_str = json.dumps(info, ensure_ascii=False, indent=4)
 
+    print(info_str[0])
+
     await bot.send_message(message.chat.id, info_str)
     await bot.send_message(message.chat.id, status)
 
 
 @dp.message(F.document)
 async def admin_work(message: types.Message):
-    if message.chat.id == 5728980889 or message.chat.id == 1031845328:
+    if message.chat.id == 819233688 or message.chat.id == 1031845328:
         document = message.document
 
         file_info = await bot.get_file(document.file_id)
