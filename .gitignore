@@ -133,4 +133,5 @@ dmypy.json
 
 .idea/
 test.py
-/data.xlsx
+
+!/data.xlsx

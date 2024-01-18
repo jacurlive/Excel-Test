@@ -4,12 +4,15 @@ import os
 
 import openpyxl
 import logging
+from dotenv import load_dotenv
 from aiogram import Bot, Dispatcher, types, F
 from aiogram.filters import CommandStart
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 from utils import add_plus
 
-TOKEN = "6594664425:AAHX5W73TkK1b75pZ_g_gEVY9SbrSZDHLcs"
+load_dotenv()
+
+TOKEN = os.environ['TOKEN']
 
 logging.basicConfig(level=logging.INFO)
 
@@ -55,8 +58,6 @@ async def get_contact(message: types.Message):
 
     info_str = json.dumps(info, ensure_ascii=False, indent=4)
 
-    print(info_str[0])
-
     await bot.send_message(message.chat.id, info_str)
     await bot.send_message(message.chat.id, status)
 
@@ -74,7 +75,7 @@ async def admin_work(message: types.Message):
             try:
                 os.remove("data.xlsx")
             except Exception as ex:
-                await bot.send_message(message.chat.id, str(ex))
+                await bot.send_message(message.chat.id, f"error: {str(ex)}")
 
         with open(f'data.xlsx', 'wb') as new_file:
             new_file.write(file_path.read())
