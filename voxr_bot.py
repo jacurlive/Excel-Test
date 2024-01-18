@@ -56,10 +56,12 @@ async def get_contact(message: types.Message):
             status = "Hisob Topildi!"
             break
 
-    info_str = json.dumps(info, ensure_ascii=False, indent=4)
-
-    await bot.send_message(message.chat.id, info_str)
-    await bot.send_message(message.chat.id, status)
+    if not info:
+        await bot.send_message(message.chat.id, status)
+    else:
+        text = "\n".join([f"<b>{key}</b>:  {value}" for key, value in info.items()])
+        await bot.send_message(message.chat.id, text, parse_mode="html")
+        await bot.send_message(message.chat.id, status)
 
 
 @dp.message(F.document)
