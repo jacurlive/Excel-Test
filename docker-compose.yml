@@ -4,9 +4,9 @@ version: '3'
 services:
   bot:
     build: .
-    command: bash -c "python voxr_bot.py"
-    container_name: voxr-bot
+    command: bash -c "python bot.py"
+    container_name: bot
     volumes:
-      - .:/voxr_bot
+      - .:/bot
     ports:
       - 8080:8080
