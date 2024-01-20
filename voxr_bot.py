@@ -18,7 +18,7 @@ TOKEN = os.environ['TOKEN']
 
 bot = Bot(token=TOKEN)
 dp = Dispatcher(bot=bot)
-db = Database("db.sqlite3")
+db = Database("data/db.sqlite3")
 
 reply_keyboard = ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text="Raqamni Yuborish", request_contact=True)]],
                                      resize_keyboard=True)
@@ -37,7 +37,7 @@ async def get_contact(message: types.Message):
         db.add_user(message.from_user.id, message.from_user.first_name, message.from_user.last_name)
     contact = message.contact
     await message.answer("Raqam muvofaqiyatli royhatdan otdi!Hisob izlanmoqda...")
-    book = openpyxl.load_workbook("docs/data.xlsx", read_only=True)
+    book = openpyxl.load_workbook("data/data.xlsx", read_only=True)
     try:
         sheet = book.active
         status = "Hisob topilmadi!"
@@ -69,12 +69,12 @@ async def admin_work(message: types.Message):
         document = message.document
         file_info = await bot.get_file(document.file_id)
         file_path = await bot.download_file(file_info.file_path)
-        if os.path.exists("docs/data.xlsx"):
+        if os.path.exists("data/data.xlsx"):
             try:
-                os.remove("docs/data.xlsx")
+                os.remove("data/data.xlsx")
             except Exception as ex:
                 await bot.send_message(message.chat.id, f"error: {str(ex)}")
-        with open(f'docs/data.xlsx', 'wb') as new_file:
+        with open(f'data/data.xlsx', 'wb') as new_file:
             new_file.write(file_path.read())
         await bot.send_message(message.chat.id, "Файл сохранен успешно!")
     else:
