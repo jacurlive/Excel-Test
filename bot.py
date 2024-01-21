@@ -11,15 +11,12 @@ from utils.functions import add_plus, get_salary, add_user, save_file
 from utils.database import Database
 
 load_dotenv()
-
 logging.basicConfig(level=logging.INFO)
 
 TOKEN = os.environ['TOKEN']
-
 bot = Bot(token=TOKEN)
 dp = Dispatcher(bot=bot)
 db = Database("data/db.sqlite3")
-
 reply_keyboard = ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text="Raqamni Yuborish", request_contact=True)]],
                                      resize_keyboard=True)
 
