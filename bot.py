@@ -23,12 +23,21 @@ reply_keyboard = ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text="Raqamni Yub
 
 @dp.message(CommandStart())
 async def start(message: types.Message):
+    """
+        start command,
+        returns a greeting text and a button to send contact information
+    """
     add_user(message.from_user.id, message.from_user.first_name, message.from_user.last_name)
     await message.answer("Salom!Malumotni korish uchun pastdagi tugmani bosing!", reply_markup=reply_keyboard)
 
 
 @dp.message(F.contact)
 async def get_contact(message: types.Message):
+    """
+        accepts the contact,
+        passes it through the add_plus function and passes it to the get_salary function and
+        sends the result to the user
+    """
     add_user(message.from_user.id, message.from_user.first_name, message.from_user.last_name)
     contact = message.contact
     contact = add_plus(contact.phone_number)
@@ -39,6 +48,11 @@ async def get_contact(message: types.Message):
 
 @dp.message(F.document)
 async def admin_work(message: types.Message):
+    """
+        First of all, the telegram ID is checked,
+        if it matches the administrator’s telegram ID,
+        it accepts the file and passes it to the save_file function
+    """
     if message.chat.id == 819233688 or message.chat.id == 1031845328:
         document = message.document
         file_info = await bot.get_file(document.file_id)
@@ -52,6 +66,12 @@ async def admin_work(message: types.Message):
 
 @dp.message(Command("message"))
 async def message_to_all(message: types.Message):
+    """
+        message command,
+        first of all, the telegram ID is checked,
+        if it matches the administrator’s telegram ID,
+        accepts the text located after /message and sends it to all registered users
+    """
     if message.from_user.id == 819233688:
         text = message.text[8:]
         users = db.get_users()
@@ -67,6 +87,11 @@ async def message_to_all(message: types.Message):
 
 @dp.message(Command("users"))
 async def user_list(message: types.Message):
+    """
+        first of all, the telegram ID is checked,
+        if it matches the administrator’s telegram ID,
+        then returns all users data
+    """
     if message.from_user.id == 819233688:
         users = db.get_users()
         text = "\n".join([str(user) for user in users])
@@ -75,6 +100,10 @@ async def user_list(message: types.Message):
 
 @dp.message()
 async def answer_message(message: types.Message):
+    """
+        if the command or text is not recognized,
+        it returns the text and a button to send contact information
+    """
     await message.answer("'Raqamni yuborish' tugmasini bosing)", reply_markup=reply_keyboard)
 
 
