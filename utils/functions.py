@@ -6,12 +6,21 @@ db = Database("data/db.sqlite3")
 
 
 def add_plus(number: str) -> str:
+    """
+        gets the user's phone number and checks if there is a plus at the beginning,
+        if not then adds a plus and returns
+    """
     if number.startswith("+"):
         return number
     return "+" + number
 
 
 def get_salary(number):
+    """
+        accepts a phone number,
+        opens the xlsx file and goes through the cell of phone numbers,
+        if it finds a similar number, it parses its data and displays it in a beautiful form
+    """
     book = openpyxl.load_workbook("data/data.xlsx", read_only=True)
     try:
         sheet = book.active
@@ -34,11 +43,18 @@ def get_salary(number):
 
 
 def add_user(userid, username, lastname):
+    """
+        accepts user data and passes it to the add_users function in the database
+    """
     if not db.user_exists(userid):
         db.add_user(userid, username, lastname)
 
 
 def save_file(filepath):
+    """
+        accepts the file,
+        deletes the old one and saves the new one
+    """
     if os.path.exists("data/data.xlsx"):
         try:
             os.remove("data/data.xlsx")
