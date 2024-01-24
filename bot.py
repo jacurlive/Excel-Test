@@ -1,13 +1,12 @@
 import asyncio
 import os
 
-import openpyxl
 import logging
 from dotenv import load_dotenv
 from aiogram import Bot, Dispatcher, types, F
 from aiogram.filters import CommandStart, Command
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
-from utils.functions import add_plus, get_salary, add_user, save_file
+from utils.functions import add_plus, get_salary, add_user, save_file, delete_user
 from utils.database import Database
 
 load_dotenv()
@@ -96,6 +95,18 @@ async def user_list(message: types.Message):
         users = db.get_users()
         text = "\n".join([str(user) for user in users])
         await bot.send_message(819233688, text)
+
+
+@dp.message(Command("delete"))
+async def delete(message: types.Message):
+    """
+        takes user_id,
+        passes it to the delete_user function and prints the result
+    """
+    if message.from_user.id == 819233688:
+        user_id = message.text[8:]
+        info = delete_user(user_id)
+        await bot.send_message(message.chat.id, info)
 
 
 @dp.message()

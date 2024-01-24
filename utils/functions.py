@@ -50,6 +50,18 @@ def add_user(userid, username, lastname):
         db.add_user(userid, username, lastname)
 
 
+def delete_user(user_id):
+    """
+        delete user with user_id
+    """
+    try:
+        user_id = int(user_id)
+        db.delete_user(user_id)
+        return f"User - {user_id} - deleted"
+    except Exception as ex:
+        return f"Возникла проблема при удалении пользователя: {ex}"
+
+
 def save_file(filepath):
     """
         accepts the file,

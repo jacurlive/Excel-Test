@@ -36,3 +36,10 @@ class Database:
         """
         with self.connection:
             return self.cursor.execute('SELECT "user_id", "active", "name" FROM "users"').fetchall()
+
+    def delete_user(self, user_id):
+        """
+            delete one user, with user_id
+        """
+        with self.connection:
+            return self.cursor.execute('DELETE FROM "users" WHERE "user_id" = ?', (user_id,))
