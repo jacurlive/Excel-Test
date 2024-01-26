@@ -1,12 +1,12 @@
 import asyncio
 import os
-
 import logging
+
 from dotenv import load_dotenv
 from aiogram import Bot, Dispatcher, types, F
 from aiogram.filters import CommandStart, Command
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
-from utils.functions import add_plus, get_salary, add_user, save_file, delete_user
+from utils.functions import add_plus, get_salary, save_file, delete_user
 from utils.database import Database
 
 load_dotenv()
@@ -26,7 +26,6 @@ async def start(message: types.Message):
         start command,
         returns a greeting text and a button to send contact information
     """
-    add_user(message.from_user.id, message.from_user.first_name, message.from_user.last_name)
     await message.answer("Salom!Malumotni korish uchun pastdagi tugmani bosing!", reply_markup=reply_keyboard)
 
 
@@ -37,11 +36,10 @@ async def get_contact(message: types.Message):
         passes it through the add_plus function and passes it to the get_salary function and
         sends the result to the user
     """
-    add_user(message.from_user.id, message.from_user.first_name, message.from_user.last_name)
     contact = message.contact
     contact = add_plus(contact.phone_number)
     await message.answer("Raqam muvofaqiyatli royhatdan otdi!Hisob izlanmoqda...")
-    info = get_salary(contact)
+    info = get_salary(contact, message.from_user.id, message.from_user.first_name, message.from_user.last_name)
     await bot.send_message(message.chat.id, info, parse_mode="html")
 
 

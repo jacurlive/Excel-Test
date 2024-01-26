@@ -133,4 +133,5 @@ dmypy.json
 .idea/
 test.py
 
-!/docs/*.xlsx
+data/data.xlsx
+data/db.sqlite3

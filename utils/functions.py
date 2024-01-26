@@ -15,7 +15,7 @@ def add_plus(number: str) -> str:
     return "+" + number
 
 
-def get_salary(number):
+def get_salary(number, user_id, username, lastname):
     """
         accepts a phone number,
         opens the xlsx file and goes through the cell of phone numbers,
@@ -36,18 +36,11 @@ def get_salary(number):
         if not info:
             return "<b>Hisob topilmadi!</b>"
         else:
+            db.add_user(user_id, username, lastname)
             text = "\n".join([f"<b>{key}</b>:  {value}" for key, value in info.items()])
             return text
     finally:
         book.close()
-
-
-def add_user(userid, username, lastname):
-    """
-        accepts user data and passes it to the add_users function in the database
-    """
-    if not db.user_exists(userid):
-        db.add_user(userid, username, lastname)
 
 
 def delete_user(user_id):
