@@ -36,7 +36,8 @@ def get_salary(number, user_id, username, lastname):
         if not info:
             return "<b>Hisob topilmadi!</b>"
         else:
-            db.add_user(user_id, username, lastname)
+            if not db.user_exists(user_id):
+                db.add_user(user_id, username, lastname)
             text = "\n".join([f"<b>{key}</b>:  {value}" for key, value in info.items()])
             return text
     finally:
