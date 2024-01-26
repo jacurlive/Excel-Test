@@ -6,4 +6,4 @@ WORKDIR /bot
 
 COPY . /bot/
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r data/requirements.txt
