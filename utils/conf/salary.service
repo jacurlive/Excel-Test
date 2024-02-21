@@ -1,0 +1,15 @@
+[Unit]
+Description=Salary Bot
+After=syslog.target
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/home/bot/salary-info-bot/
+ExecStart=/home/bot/salary-info-bot/venv/bin/python3 /home/bot/salary-info-bot/bot.py
+RestartSec=10
+Restart=always
+
+[Install]
+WantedBy=multu-user.target
