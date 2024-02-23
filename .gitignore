@@ -135,3 +135,4 @@ test.py
 
 data/data.xlsx
 data/db.sqlite3
+tmp/
