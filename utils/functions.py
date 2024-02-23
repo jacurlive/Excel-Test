@@ -23,22 +23,6 @@ def get_salary(number, user_id, username, lastname):
         opens the xlsx file and goes through the cell of phone numbers,
         if it finds a similar number, it parses its data and displays it in a beautiful form
     """
-    # Создаем временную папку
-    tmp_folder = 'tmp/convert_wrong_excel/'
-    os.makedirs(tmp_folder, exist_ok=True)
-
-    # Распаковываем excel как zip в нашу временную папку
-    with ZipFile('data/data.xlsx') as excel_container:
-        excel_container.extractall(tmp_folder)
-
-    # Переименовываем файл с неверным названием
-    wrong_file_path = os.path.join(tmp_folder, 'xl', 'SharedStrings.xml')
-    correct_file_path = os.path.join(tmp_folder, 'xl', 'sharedStrings.xml')
-    os.rename(wrong_file_path, correct_file_path) 
-
-    # Запаковываем excel обратно в zip и переименовываем в исходный файл
-    shutil.make_archive('data/data', 'zip', tmp_folder)
-    os.rename('data/data.zip', 'data/data.xlsx')
 
     book = openpyxl.load_workbook("data/data.xlsx", read_only=True)
     try:
@@ -87,4 +71,25 @@ def save_file(filepath):
             return f"<b>error: {str(ex)}</b>"
     with open(f'data/data.xlsx', 'wb') as new_file:
         new_file.write(filepath.read())
+    
+    try:
+        # Создаем временную папку
+        tmp_folder = 'tmp/convert_wrong_excel/'
+        os.makedirs(tmp_folder, exist_ok=True)
+
+        # Распаковываем excel как zip в нашу временную папку
+        with ZipFile('data/data.xlsx') as excel_container:
+            excel_container.extractall(tmp_folder)
+
+        # Переименовываем файл с неверным названием
+        wrong_file_path = os.path.join(tmp_folder, 'xl', 'SharedStrings.xml')
+        correct_file_path = os.path.join(tmp_folder, 'xl', 'sharedStrings.xml')
+        os.rename(wrong_file_path, correct_file_path) 
+
+        # Запаковываем excel обратно в zip и переименовываем в исходный файл
+        shutil.make_archive('data/data', 'zip', tmp_folder)
+        os.rename('data/data.zip', 'data/data.xlsx')
+        
         return "<b>Файл сохранен успешно!</b>"
+    except Exception as ex:
+        return f"<b>error: {str(ex)}</b>"
